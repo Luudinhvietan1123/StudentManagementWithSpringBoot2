@@ -31,6 +31,12 @@ public class api {
             statement.execute(sql);
         }catch (SQLException e){
             e.printStackTrace();
+        }finally {
+            try{
+                SqlServerConnection.getInstanceConnection().close();
+            }catch (Exception e){
+                e.printStackTrace();
+            }
         }
     }
 
@@ -49,17 +55,23 @@ public class api {
             statement.execute(sql);
         }catch (SQLException e){
             e.printStackTrace();
+        }finally {
+            try{
+                SqlServerConnection.getInstanceConnection().close();
+            }catch (Exception e){
+                e.printStackTrace();
+            }
         }
     }
 
     @GetMapping(value = "/user/list")
-    public Object getUserList(){
+    public Object getUserList() {
         String sql = "select * from user order by fullname ASC";
         List<User> userList = new ArrayList<>();
-        try{
-            Statement statement =SqlServerConnection.getInstanceConnection().createStatement();
+        try {
+            Statement statement = SqlServerConnection.getInstanceConnection().createStatement();
             ResultSet resultSet = statement.executeQuery(sql);
-            while(resultSet.next()){
+            while (resultSet.next()) {
                 User user = new User(
                         resultSet.getInt(1),
                         resultSet.getString(2),
@@ -71,9 +83,14 @@ public class api {
                 );
                 userList.add(user);
             }
-        }catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
+            try {
+                SqlServerConnection.getInstanceConnection().close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             return userList;
         }
     }
@@ -100,6 +117,11 @@ public class api {
         }catch (SQLException e){
             e.printStackTrace();
         }finally {
+            try {
+                SqlServerConnection.getInstanceConnection().close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             return userList;
         }
     }
@@ -166,6 +188,12 @@ public class api {
         {
             e.printStackTrace();
             System.out.println("Delete fail");
+        }finally {
+            try{
+                SqlServerConnection.getInstanceConnection().close();
+            }catch (Exception e){
+                e.printStackTrace();
+            }
         }
     }
 
